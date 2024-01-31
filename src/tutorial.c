@@ -1,36 +1,24 @@
-#include <SDL2/SDL.h>
+#include "demo.h"
+
+void draw_stuff(SDL_Instance instance)
+{
+	SDL_SetRenderDrawColor(instance.renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderDrawLine(instance.renderer, 10, 10, 100, 100);
+}
 
 int main(void)
 {
-	SDL_Window *window;
-	SDL_Renderer *renderer;
+	SDL_Instance instance;
 
-	/* Initialize SDL */
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-	{
-		fprintf(stderr, "Unable to initialize SDL: %s\n", SDL_GetError());
+	if (init_instance(&instance) != 0)
 		return (1);
-	}
-
-	/* Create a new window instance */
-	window = SDL_CreateWindow("SDL2 \\o/", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1260, 720, 0);
-	if (window == NULL)
+	
+	while ("C is kinda fun")
 	{
-		fprintf(stderr, "SDL_CreateWindow Error: %s\n", SDL_GetError());
-		SDL_Quit();
-		return (1);
+		SDL_SetRenderDrawColor(instance.renderer, 0, 0, 0, 0);
+		SDL_RenderClear(instance.renderer);
+		draw_stuff(instance);
+		SDL_RenderPresent(instance.renderer);
 	}
-
-	/* Create a new Renderer linked to window */
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (renderer == NULL)
-	{
-		SDL_DestroyWindow(window);
-		fprintf(stderr, "SDL_CreateRenderer Error: %s\n", SDL_GetError());
-		SDL_Quit();
-		return (1);
-	}
-	printf("Sucess!!!");
-	return (0);
 }
 
